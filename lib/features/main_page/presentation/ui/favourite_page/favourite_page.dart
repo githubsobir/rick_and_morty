@@ -1,8 +1,9 @@
+import 'dart:developer';
+
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rick_and_morty/core/theme/colors_app.dart';
-import 'package:rick_and_morty/features/main_page/domain/entites/character_entities.dart';
+import 'package:rick_and_morty/core/util/snacbar_util.dart';
 import 'package:rick_and_morty/features/main_page/presentation/state/favourite_state/favourite_cubit.dart';
 import 'package:rick_and_morty/features/main_page/presentation/state/favourite_state/favourite_state.dart';
 import 'package:rick_and_morty/features/main_page/presentation/state/get_character/get_character_bloc.dart';
@@ -19,77 +20,66 @@ class FavouritePage extends StatefulWidget {
 
 class _FavouritePageState extends State<FavouritePage> {
   @override
+  void initState() {
+    log("FavouritePage initState");
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-      BlocBuilder<FavouriteCubit, FavouriteState>(
+      body: BlocBuilder<FavouriteCubit, FavouriteState>(
         builder: (context, state) {
-          final cubit = context.read<FavouriteCubit>();
-
           if (state.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          if (state.favouriteIds.isEmpty) {
-            return const Center(
-              child: Text(
-                "Пока нет любимых персонажей ☹️",
-                style: TextStyle(fontSize: 18, color: Colors.grey),
+          if (state.listFavourite.isEmpty) {
+            return Center(
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  Text(
+                    "Пока нет любимых персонажей ☹️",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18, color: Colors.grey),
+                  ),
+                ],
               ),
             );
           }
 
-          final favourites = cubit.getFavouriteCharacters();
-
           return ListView.builder(
             padding: const EdgeInsets.symmetric(vertical: 8),
-            itemCount: favourites.length,
+            itemCount: state.listFavourite.length,
             itemBuilder: (context, index) {
-              final characterMap = favourites[index];
+              final characterMap = state.listFavourite[index];
               return CharacterCard(
                 character: characterMap,
                 isFavorite: true,
                 onFavoritePressed: () {
                   context.read<FavouriteCubit>().toggleFavourite(
-                    favourites[index],
+                    state.listFavourite[index],
+                    false,
                   );
 
                   context.read<GetCharacterBloc>().add(
                     UpdateCharacters(
-                      characterId: favourites[index].id,
-                      isFavourite: favourites[index].isFavourite,
+                      characterId: characterMap.id,
+                      isFavourite: characterMap.isFavourite,
                     ),
                   );
-                  showFavouriteSnackBar(context, false, favourites[index]);
 
+                  SnackBarUtils.showFavouriteSnackBar(
+                    context,
+                    false,
+                    characterMap,
+                  );
                 },
               );
             },
           );
         },
-      ));
-  }
-
-  void showFavouriteSnackBar(
-    BuildContext context,
-    bool isAdded,
-    CharacterEntities character,
-  ) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Удалено из избранного'),
-        duration: const Duration(seconds: 2),
-        behavior: SnackBarBehavior.floating,
-          persist: false,
-        backgroundColor: AppColors.primaryButtonColor(context),
-        action: SnackBarAction(
-          label: 'Отмена',
-          backgroundColor: AppColors.borderColor(context),
-          textColor: AppColors.textAppBarColor(context),
-          onPressed: () {
-            context.read<FavouriteCubit>().toggleFavourite(character);
-          },
-        ),
       ),
     );
   }

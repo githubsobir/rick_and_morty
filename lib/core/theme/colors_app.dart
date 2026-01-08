@@ -11,12 +11,16 @@ class AppColors {
 
 
   static Color textAppBarColor(BuildContext context) =>
-      getColor(Colors.blueAccent, Colors.white, Theme.of(context).brightness);
+      getColor(Colors.blueAccent.shade700, Colors.white, Theme.of(context).brightness);
 
   static Color borderColor(BuildContext context) =>
       getColor(Colors.white, Colors.blueAccent, Theme.of(context).brightness);
 
+  static Color borderColor2(BuildContext context) =>
+      getColor(Colors.white.withAlpha(100), Colors.black.withAlpha(100), Theme.of(context).brightness);
+  
   ///
+  /// 
   ///
   ///
   static const Color primaryLight = Color.fromRGBO(63, 81, 181, 1.0);

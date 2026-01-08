@@ -257,7 +257,7 @@ String toString() {
 
 
 class CharacterListLoaded implements CharacterListState {
-  const CharacterListLoaded({required final  List<CharacterEntities> listCharacters, this.hasMore = true, this.isLoadingMore = false}): _listCharacters = listCharacters;
+  const CharacterListLoaded({required final  List<CharacterEntities> listCharacters, required this.hasMore, required this.isLoadingMore}): _listCharacters = listCharacters;
   
 
  final  List<CharacterEntities> _listCharacters;
@@ -267,8 +267,8 @@ class CharacterListLoaded implements CharacterListState {
   return EqualUnmodifiableListView(_listCharacters);
 }
 
-@JsonKey() final  bool hasMore;
-@JsonKey() final  bool isLoadingMore;
+ final  bool hasMore;
+ final  bool isLoadingMore;
 
 /// Create a copy of CharacterListState
 /// with the given fields replaced by the non-null parameter values.

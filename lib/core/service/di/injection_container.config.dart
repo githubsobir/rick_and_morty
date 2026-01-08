@@ -42,6 +42,7 @@ import '../../../features/main_page/presentation/ui/detail_page/domain/usecase/d
 import '../../../features/main_page/presentation/ui/detail_page/presentation/state/detail_cubit.dart'
     as _i960;
 import '../../constants/hive_boxes.dart' as _i242;
+import '../../network/cubit/internet_cubit.dart' as _i818;
 import '../../theme/theme_cubit.dart' as _i502;
 import 'injection_container.dart' as _i809;
 
@@ -77,6 +78,9 @@ _i174.GetIt init(
   );
   gh.factory<_i960.DetailCubit>(
     () => _i960.DetailCubit(gh<_i994.DetailUseCase>()),
+  );
+  gh.factory<_i818.InternetCubit>(
+    () => _i818.InternetCubit(gh<_i161.InternetConnection>()),
   );
   gh.factory<_i948.CharacterLocalDataSource>(
     () => _i948.CharacterLocalDataSourceImpl(gh<_i242.HiveService>()),

@@ -34,9 +34,24 @@ class CharacterDetailPage extends StatelessWidget {
                       expandedHeight: 400,
                       pinned: true,
                       // backgroundColor: const Color(0xFF16213E),
-                      leading: IconButton(
-                        icon: const Icon(Icons.arrow_back),
-                        onPressed: () => context.router.pop(),
+                      leading: Container(
+                        margin: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: AppColors.primaryButtonColor(context),
+                            width: 1,
+                          ),
+                          color: AppColors.borderColor2(context),
+                          shape: BoxShape.circle,
+                        ),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.arrow_back,
+
+                            color: AppColors.primaryButtonColor(context),
+                          ),
+                          onPressed: () => context.router.pop(),
+                        ),
                       ),
                       flexibleSpace: FlexibleSpaceBar(
                         background: Stack(
@@ -149,9 +164,7 @@ class CharacterDetailPage extends StatelessWidget {
                             const SizedBox(height: 12),
                             Text(
                               'Appeared in ${success.episode.length} episodes',
-                              style: const TextStyle(
-                                fontSize: 16,
-                              ),
+                              style: const TextStyle(fontSize: 16),
                             ),
                             const SizedBox(height: 16),
                             _buildEpisodesGrid(success.episode),
@@ -168,7 +181,29 @@ class CharacterDetailPage extends StatelessWidget {
                 );
               },
               error: (error) {
-                return Center(child: Text(error));
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
+                      child: Text(error),
+                    ),
+                    SizedBox(height: 30),
+                    MaterialButton(
+                      height: 50,
+                      minWidth: 250,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      color: AppColors.borderColor2(context),
+                      onPressed: () {
+                        context.router.pop();
+                      },
+                      child: Text("BACK"),
+                    ),
+                  ],
+                );
               },
             );
           },
@@ -235,10 +270,7 @@ class CharacterDetailPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(fontSize: 14),
-                ),
+                Text(title, style: const TextStyle(fontSize: 14)),
                 const SizedBox(height: 4),
                 Text(
                   value,
@@ -271,7 +303,10 @@ class CharacterDetailPage extends StatelessWidget {
         return Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.textAppBarColor(context).withAlpha(155), width: 1),
+            border: Border.all(
+              color: AppColors.textAppBarColor(context).withAlpha(155),
+              width: 1,
+            ),
           ),
           child: Center(
             child: Text(

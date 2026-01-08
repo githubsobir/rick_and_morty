@@ -29,19 +29,19 @@ class CharacterRepositoryImpl implements CharacterRepository {
   Future<Either<Failure, CharacterResponseEntities>> getCharacters({
     required int pageNum,
   }) async {
-    // Favourite IDs ni olish
+    // Favourite IDs
     final favourites = hiveService.getFavourites();
     final favouriteIds = favourites.map((char) => char.id).toSet();
 
     final hasConnection = await internetConnection.hasInternetAccess;
 
     if (hasConnection) {
-      // Internet bor - remote dan olamiz
+      // check Internet
       final remoteResult = await remoteDataSource.getCharacters(page: pageNum);
 
       return remoteResult.fold(
             (failure) async {
-          // Remote failure bo'lsa, cache dan o'qiymiz
+          // read cache
           log("Remote failure: $failure, loading from cache");
           var data = await localDataSource.getCachedCharacters();
           return data.fold(
@@ -50,7 +50,7 @@ class CharacterRepositoryImpl implements CharacterRepository {
               return Left(cacheFailure);
             },
                 (cachedResponse) {
-              // Cache dan entity ga o'tkazish + favourite flaglar
+              // Cache => entity
               final entity = _toEntityWithFavourites(
                 cachedResponse.toEntity(),
                 favouriteIds,
@@ -60,13 +60,11 @@ class CharacterRepositoryImpl implements CharacterRepository {
           );
         },
             (response) async {
-          // Remote dan muvaffaqiyatli keldi
           log("Remote success, saving to cache");
 
           // Cache ga saqlash
           await localDataSource.saveCharacters(jsonEncode(response).toString());
 
-          // Entity ga o'tkazish + favourite flaglar
           final entity = _toEntityWithFavourites(
             response.toEntity(),
             favouriteIds,
@@ -76,7 +74,6 @@ class CharacterRepositoryImpl implements CharacterRepository {
         },
       );
     } else {
-      // Internet yo'q - cache dan o'qiymiz
       log("No internet, loading from cache");
       final cachedResult = await localDataSource.getCachedCharacters();
 
@@ -88,7 +85,6 @@ class CharacterRepositoryImpl implements CharacterRepository {
             (cachedResponse) {
           log("Cache success");
 
-          // Cache dan entity ga o'tkazish + favourite flaglar
           final entity = _toEntityWithFavourites(
             cachedResponse.toEntity(),
             favouriteIds,
@@ -100,7 +96,7 @@ class CharacterRepositoryImpl implements CharacterRepository {
     }
   }
 
-  /// Entity ga favourite flaglarni qo'shish
+  /// Entity ga favourite
   CharacterResponseEntities _toEntityWithFavourites(
       CharacterResponseEntities response,
       Set<int> favouriteIds,

@@ -11,8 +11,8 @@ class CharacterListState with _$CharacterListState {
 
   const factory CharacterListState.loaded({
     required List<CharacterEntities> listCharacters,
-    @Default(true) bool hasMore,
-    @Default(false) bool isLoadingMore,
+    required bool hasMore,
+    required bool isLoadingMore,
   }) = CharacterListLoaded;
 
   const factory CharacterListState.error(String message) = CharacterListError;

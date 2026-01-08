@@ -1,7 +1,7 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rick_and_morty/core/constants/hive_boxes.dart';
+import 'package:rick_and_morty/features/main_page/domain/entites/character_entities.dart';
 import 'package:rick_and_morty/features/main_page/domain/usecase/character_usecase.dart';
 import 'package:rick_and_morty/features/main_page/presentation/state/get_character/get_character_event.dart';
 import 'package:rick_and_morty/features/main_page/presentation/state/get_character/get_character_state.dart';
@@ -32,6 +32,7 @@ class GetCharacterBloc extends Bloc<CharacterListEvent, CharacterListState> {
         _currentPage = 1;
         emit(
           CharacterListState.loaded(
+            isLoadingMore: false,
             listCharacters: characters.results,
             hasMore: characters.info.next?.isNotEmpty ?? false,
           ),
@@ -83,6 +84,7 @@ class GetCharacterBloc extends Bloc<CharacterListEvent, CharacterListState> {
         _currentPage = 1;
         emit(
           CharacterListState.loaded(
+            isLoadingMore: false,
             listCharacters: characters.results,
             hasMore: characters.info.next?.isNotEmpty ?? false,
           ),
@@ -92,42 +94,26 @@ class GetCharacterBloc extends Bloc<CharacterListEvent, CharacterListState> {
   }
 
   Future<void> _updateCharacter(
-    UpdateCharacters event,
-    Emitter<CharacterListState> emit,
-  ) async {
-    final currentState = state;
+      UpdateCharacters event,
+      Emitter<CharacterListState> emit,
+      ) async {
+    if (state is! CharacterListLoaded) return;
+    final currentState = state as CharacterListLoaded;
 
-    if (currentState is CharacterListLoaded) {
-      final updatedList = currentState.listCharacters.map((character) {
+    final updatedList = List<CharacterEntities>.from(
+      currentState.listCharacters.map((character) {
         if (character.id == event.characterId) {
-          return character.copyWith(isFavourite: !character.isFavourite);
+          return character.copyWith(isFavourite: event.isFavourite);
         }
         return character;
-      }).toList();
+      }),
+    );
 
-      emit(currentState.copyWith(listCharacters: updatedList));
-    }
+    emit(CharacterListState.loaded(
+      listCharacters: updatedList,
+      hasMore: currentState.hasMore,
+      isLoadingMore: currentState.isLoadingMore,
+    ));
   }
 
-  // Future<void> _updateCharacter(
-  //   UpdateCharacters event,
-  //   Emitter<CharacterListState> emit,
-  // ) async {
-  //   try {
-  //     final updatedList =
-  //         CharacterResponseEntities.fromJson(
-  //           jsonDecode(localSavedData.getCharacters()!),
-  //         ).map((character) {
-  //           if (character.results == event.characterId) {
-  //             return character.copyWith(isFavourite: event.isFavourite);
-  //           }
-  //           return character;
-  //         }).toList();
-  //
-  //     emit(CharacterListState.loaded(listCharacters: updatedList));
-  //   } catch (e) {
-  //     log(e.toString());
-  //     log("ERROR");
-  //   }
-  // }
 }

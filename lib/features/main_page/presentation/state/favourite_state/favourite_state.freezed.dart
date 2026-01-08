@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FavouriteState {
 
- Set<int> get favouriteIds; bool get isLoading;
+ List<CharacterEntities> get listFavourite; bool get isLoading; CharacterEntities? get lastChangedItem; int get toggleCount;
 /// Create a copy of FavouriteState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $FavouriteStateCopyWith<FavouriteState> get copyWith => _$FavouriteStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FavouriteState&&const DeepCollectionEquality().equals(other.favouriteIds, favouriteIds)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FavouriteState&&const DeepCollectionEquality().equals(other.listFavourite, listFavourite)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.lastChangedItem, lastChangedItem) || other.lastChangedItem == lastChangedItem)&&(identical(other.toggleCount, toggleCount) || other.toggleCount == toggleCount));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(favouriteIds),isLoading);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(listFavourite),isLoading,lastChangedItem,toggleCount);
 
 @override
 String toString() {
-  return 'FavouriteState(favouriteIds: $favouriteIds, isLoading: $isLoading)';
+  return 'FavouriteState(listFavourite: $listFavourite, isLoading: $isLoading, lastChangedItem: $lastChangedItem, toggleCount: $toggleCount)';
 }
 
 
@@ -45,11 +45,11 @@ abstract mixin class $FavouriteStateCopyWith<$Res>  {
   factory $FavouriteStateCopyWith(FavouriteState value, $Res Function(FavouriteState) _then) = _$FavouriteStateCopyWithImpl;
 @useResult
 $Res call({
- Set<int> favouriteIds, bool isLoading
+ List<CharacterEntities> listFavourite, bool isLoading, CharacterEntities? lastChangedItem, int toggleCount
 });
 
 
-
+$CharacterEntitiesCopyWith<$Res>? get lastChangedItem;
 
 }
 /// @nodoc
@@ -62,14 +62,28 @@ class _$FavouriteStateCopyWithImpl<$Res>
 
 /// Create a copy of FavouriteState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? favouriteIds = null,Object? isLoading = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? listFavourite = null,Object? isLoading = null,Object? lastChangedItem = freezed,Object? toggleCount = null,}) {
   return _then(_self.copyWith(
-favouriteIds: null == favouriteIds ? _self.favouriteIds : favouriteIds // ignore: cast_nullable_to_non_nullable
-as Set<int>,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
-as bool,
+listFavourite: null == listFavourite ? _self.listFavourite : listFavourite // ignore: cast_nullable_to_non_nullable
+as List<CharacterEntities>,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,lastChangedItem: freezed == lastChangedItem ? _self.lastChangedItem : lastChangedItem // ignore: cast_nullable_to_non_nullable
+as CharacterEntities?,toggleCount: null == toggleCount ? _self.toggleCount : toggleCount // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
+/// Create a copy of FavouriteState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CharacterEntitiesCopyWith<$Res>? get lastChangedItem {
+    if (_self.lastChangedItem == null) {
+    return null;
+  }
 
+  return $CharacterEntitiesCopyWith<$Res>(_self.lastChangedItem!, (value) {
+    return _then(_self.copyWith(lastChangedItem: value));
+  });
+}
 }
 
 
@@ -151,10 +165,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Set<int> favouriteIds,  bool isLoading)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<CharacterEntities> listFavourite,  bool isLoading,  CharacterEntities? lastChangedItem,  int toggleCount)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _FavouriteState() when $default != null:
-return $default(_that.favouriteIds,_that.isLoading);case _:
+return $default(_that.listFavourite,_that.isLoading,_that.lastChangedItem,_that.toggleCount);case _:
   return orElse();
 
 }
@@ -172,10 +186,10 @@ return $default(_that.favouriteIds,_that.isLoading);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Set<int> favouriteIds,  bool isLoading)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<CharacterEntities> listFavourite,  bool isLoading,  CharacterEntities? lastChangedItem,  int toggleCount)  $default,) {final _that = this;
 switch (_that) {
 case _FavouriteState():
-return $default(_that.favouriteIds,_that.isLoading);case _:
+return $default(_that.listFavourite,_that.isLoading,_that.lastChangedItem,_that.toggleCount);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -192,10 +206,10 @@ return $default(_that.favouriteIds,_that.isLoading);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Set<int> favouriteIds,  bool isLoading)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<CharacterEntities> listFavourite,  bool isLoading,  CharacterEntities? lastChangedItem,  int toggleCount)?  $default,) {final _that = this;
 switch (_that) {
 case _FavouriteState() when $default != null:
-return $default(_that.favouriteIds,_that.isLoading);case _:
+return $default(_that.listFavourite,_that.isLoading,_that.lastChangedItem,_that.toggleCount);case _:
   return null;
 
 }
@@ -207,17 +221,19 @@ return $default(_that.favouriteIds,_that.isLoading);case _:
 
 
 class _FavouriteState implements FavouriteState {
-  const _FavouriteState({final  Set<int> favouriteIds = const {}, this.isLoading = false}): _favouriteIds = favouriteIds;
+  const _FavouriteState({required final  List<CharacterEntities> listFavourite, required this.isLoading, required this.lastChangedItem, this.toggleCount = 0}): _listFavourite = listFavourite;
   
 
- final  Set<int> _favouriteIds;
-@override@JsonKey() Set<int> get favouriteIds {
-  if (_favouriteIds is EqualUnmodifiableSetView) return _favouriteIds;
+ final  List<CharacterEntities> _listFavourite;
+@override List<CharacterEntities> get listFavourite {
+  if (_listFavourite is EqualUnmodifiableListView) return _listFavourite;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableSetView(_favouriteIds);
+  return EqualUnmodifiableListView(_listFavourite);
 }
 
-@override@JsonKey() final  bool isLoading;
+@override final  bool isLoading;
+@override final  CharacterEntities? lastChangedItem;
+@override@JsonKey() final  int toggleCount;
 
 /// Create a copy of FavouriteState
 /// with the given fields replaced by the non-null parameter values.
@@ -229,16 +245,16 @@ _$FavouriteStateCopyWith<_FavouriteState> get copyWith => __$FavouriteStateCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FavouriteState&&const DeepCollectionEquality().equals(other._favouriteIds, _favouriteIds)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FavouriteState&&const DeepCollectionEquality().equals(other._listFavourite, _listFavourite)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.lastChangedItem, lastChangedItem) || other.lastChangedItem == lastChangedItem)&&(identical(other.toggleCount, toggleCount) || other.toggleCount == toggleCount));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_favouriteIds),isLoading);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_listFavourite),isLoading,lastChangedItem,toggleCount);
 
 @override
 String toString() {
-  return 'FavouriteState(favouriteIds: $favouriteIds, isLoading: $isLoading)';
+  return 'FavouriteState(listFavourite: $listFavourite, isLoading: $isLoading, lastChangedItem: $lastChangedItem, toggleCount: $toggleCount)';
 }
 
 
@@ -249,11 +265,11 @@ abstract mixin class _$FavouriteStateCopyWith<$Res> implements $FavouriteStateCo
   factory _$FavouriteStateCopyWith(_FavouriteState value, $Res Function(_FavouriteState) _then) = __$FavouriteStateCopyWithImpl;
 @override @useResult
 $Res call({
- Set<int> favouriteIds, bool isLoading
+ List<CharacterEntities> listFavourite, bool isLoading, CharacterEntities? lastChangedItem, int toggleCount
 });
 
 
-
+@override $CharacterEntitiesCopyWith<$Res>? get lastChangedItem;
 
 }
 /// @nodoc
@@ -266,15 +282,29 @@ class __$FavouriteStateCopyWithImpl<$Res>
 
 /// Create a copy of FavouriteState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? favouriteIds = null,Object? isLoading = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? listFavourite = null,Object? isLoading = null,Object? lastChangedItem = freezed,Object? toggleCount = null,}) {
   return _then(_FavouriteState(
-favouriteIds: null == favouriteIds ? _self._favouriteIds : favouriteIds // ignore: cast_nullable_to_non_nullable
-as Set<int>,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
-as bool,
+listFavourite: null == listFavourite ? _self._listFavourite : listFavourite // ignore: cast_nullable_to_non_nullable
+as List<CharacterEntities>,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,lastChangedItem: freezed == lastChangedItem ? _self.lastChangedItem : lastChangedItem // ignore: cast_nullable_to_non_nullable
+as CharacterEntities?,toggleCount: null == toggleCount ? _self.toggleCount : toggleCount // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
+/// Create a copy of FavouriteState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CharacterEntitiesCopyWith<$Res>? get lastChangedItem {
+    if (_self.lastChangedItem == null) {
+    return null;
+  }
 
+  return $CharacterEntitiesCopyWith<$Res>(_self.lastChangedItem!, (value) {
+    return _then(_self.copyWith(lastChangedItem: value));
+  });
+}
 }
 
 // dart format on
