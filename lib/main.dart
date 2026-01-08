@@ -4,6 +4,7 @@ import 'package:hive_ce_flutter/adapters.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:rick_and_morty/core/keys/keys.dart';
 import 'package:rick_and_morty/core/network/cubit/internet_cubit.dart';
+import 'package:rick_and_morty/core/network/network_info.dart';
 import 'package:rick_and_morty/core/route/routes.dart';
 import 'package:rick_and_morty/core/service/di/injection_container.dart';
 import 'package:rick_and_morty/core/theme/app_theme.dart';
@@ -75,32 +76,4 @@ class AppView extends StatelessWidget {
   }
 }
 
-class NoInternetBanner extends StatelessWidget {
-  const NoInternetBanner({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
-      color: Colors.red.shade600,
-      child: SafeArea(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            Icon(Icons.wifi_off, color: Colors.white, size: 18),
-            SizedBox(width: 8),
-            Text(
-              "NO INTERNET",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
